@@ -19,6 +19,33 @@ class WishRepository extends ServiceEntityRepository
         parent::__construct($registry, Wish::class);
     }
 
+    public function findAllByDate(){
+//En DQL
+        $entityManager = $this->getEntityManager();
+        $dql = "SELECT w
+                FROM App\Entity\Wish as w
+                ORDER BY w.dateCreated DESC";
+
+        $query = $entityManager->createQuery($dql);
+
+        $query->setMaxResults(50);
+
+        return $query->getResult();
+    }
+
+    public function findBestWishes(){
+
+        //Avec le queryBuilder
+        $queryBuilder = $this->createQueryBuilder('w');
+        $queryBuilder->andWhere('w.note > 9')
+            ->addOrderby('w.dateCreated', 'DESC');
+
+        $query = $queryBuilder->getQuery();
+
+        $query->setMaxResults(50);
+
+        return $query->getResult();
+    }
     // /**
     //  * @return Wish[] Returns an array of Wish objects
     //  */

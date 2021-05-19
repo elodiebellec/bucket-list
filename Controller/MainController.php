@@ -18,6 +18,7 @@ class MainController extends AbstractController
     {
         return $this->render('main/home.html.twig');
     }
+
     /**
      * @Route("/about", name="main_aboutUs")
      */
@@ -25,6 +26,8 @@ class MainController extends AbstractController
     {
         return $this->render('main/about.html.twig');
     }
+
+
 
     /**
      * @Route("/createBdd", name="main_createBdd")
