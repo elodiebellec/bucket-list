@@ -28,26 +28,29 @@ class WishRepository extends ServiceEntityRepository
 
         $query = $entityManager->createQuery($dql);
 
-        $query->setMaxResults(50);
+        $query->setMaxResults(10);
 
         return $query->getResult();
     }
 
-    public function findBestWishes(){
+    public function findBestWishes($page){
+
 
         //Avec le queryBuilder
         $queryBuilder = $this->createQueryBuilder('w');
-        $queryBuilder->andWhere('w.note > 9')
-            ->addOrderby('w.dateCreated', 'DESC');
+        $queryBuilder->addOrderby('w.note', 'DESC');
 
         $query = $queryBuilder->getQuery();
 
-        $query->setMaxResults(50);
+        $offset = ($page - 1) * 10;
 
+        //la même chose pour les 2
+        $query->setFirstResult($offset);
+        $query->setMaxResults(10);
         return $query->getResult();
     }
     // /**
-    //  * @return Wish[] Returns an array of Wish objects
+    //  * @return wish[] Returns an array of wish objects
     //  */
     /*
     public function findByExampleField($value)
@@ -64,7 +67,7 @@ class WishRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Wish
+    public function findOneBySomeField($value): ?wish
     {
         return $this->createQueryBuilder('w')
             ->andWhere('w.exampleField = :val')
